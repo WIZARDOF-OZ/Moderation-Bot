@@ -1,3 +1,7 @@
+
+
+
+
 require("dotenv").config();
 console.log("Bot coded by Felix_Playz#1000\nLoaded Moderation Bot v2.0");
 //Defining dependencies
@@ -16,9 +20,20 @@ const format = require(`humanize-duration`);
 const fetch = require("node-fetch");
 const config = require("./config.json");
 const wb = require("quick.db");
-const bot = new Client({ disableMentions: 'everyone',
+const Distube = require("distube");
+const bot = new Client({ messageCacheLifetime: 60,
+  fetchAllMembers: false,
+  messageCacheMaxSize: 10,
+  restTimeOffset: 0,
+  restWsBridgetimeout: 100,
+  disableEveryone: true,
+   partials: ['CHANNEL', 'MESSAGE', 'REACTION', 'GUILD_MEMBER', 'USER']
+    
+});
+const client = new Client({ disableMentions: 'everyone',
   partials: ["MESSAGE", "CHANNEL", "REACTION"]
 });
+
 const fs = require("fs");
 const db = require('old-wio.db');
 const emojis = require("./emojis.json");
@@ -39,10 +54,14 @@ bot.queue3 = new Map();
 bot.queue = new Map();
 bot.games = new Map();
 
+
+require("./handlers/distube-handler.js")(bot);
+
+
  bot.on('ready', () => {
    const express = require('express')
    const app = express();
-   const port = 3000;
+   const port = 5000;
 
 app.get('/', (req, res) => res.send('Hey there!'))
 

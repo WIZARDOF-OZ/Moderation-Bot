@@ -13,8 +13,8 @@ module.exports = {
 
     run: async (bot, message, args) => { 
 
-        if (message.author.id !== config.OWNER_ID) {
-            return;
+        if (message.author.id !== "583666642010112000") {
+            return message.reply(`:x: You can't use this command. O`);
         }
         
         if (!args[0]) {

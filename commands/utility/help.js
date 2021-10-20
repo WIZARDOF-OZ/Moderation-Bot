@@ -15,6 +15,8 @@ config: {
     aliases: ['h']
 },
 run: async (bot, message, args) => {
+try{
+
     let prefix;
     if (message.author.bot || message.channel.type === "dm") return;
         try {
@@ -28,9 +30,9 @@ run: async (bot, message, args) => {
             console.log(e)
     };
     
-    try {
 
-    let Categories = ["admin", "fun", "images", "info", "mod", "utility"],
+
+    let Categories = ["admin", "fun", "images", "info","music", "mod","owner", "utility"],
     AllCommands = [];
 
 const Emotes = {
@@ -38,9 +40,13 @@ const Emotes = {
     fun: "🙂 Fun",
     images: "🔍 Images",
     info: "📚 Info",
+    music: "🎧 Music",
     mod: "🔧 Mod",
+    owner:"💠 Bot_Dev",
     utility: "🤖 Utility"
 };
+
+const Wizard = await bot.users.cache.get('583666642010112000');
 
 for (let i = 0; i < Categories.length; i++) {
     const Cmds = await bot.commands.filter(C => C.config.category === Categories[i]).array().map(C => C.config.name).sort((a, b) => a < b ? -1 : 1).join(", ");
@@ -54,8 +60,8 @@ const Embed = new Discord.MessageEmbed()
     .setAuthor("Commands", message.author.avatarURL({
         dynamic: true
     }))
-    .setDescription(Description + AllCommands.join("") + "" + "\n\n" + "**Links -**" + ` [Join Support](${support}) • [Invite Me](https://discordapp.com/oauth2/authorize?client_id=${bot.user.id}&permissions=8&scope=bot)`)
-    .setFooter(`Requested by ${message.author.username}`, bot.user.displayAvatarURL())
+    .setDescription(Description + AllCommands.join("") + "" + "\n\n" + "**Links -**" + ` [Join Support](${support})`)
+    .setFooter(`Bot Coded by ${Wizard.tag}`,Wizard.displayAvatarURL({dynamic: true}))
     .setTimestamp();
 
 if (!args[0]) return message.channel.send(Embed);
@@ -81,6 +87,7 @@ else {
     return message.channel.send(embed)
 };
 } catch (e) {
+  return message.channel.send(`\`\`\`e.stack\`\`\``)
   console.log(e);
 };
 
