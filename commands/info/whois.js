@@ -1,5 +1,6 @@
 const Discord = require("discord.js")
 const moment = require('moment');
+var { MessageEmbed } = require("discord.js")
 
 const status = {
     online: "Online",
@@ -9,14 +10,15 @@ const status = {
 };
 
 module.exports = {
-    config: {
+    config:{
         name: "whois",
         description: "userinfo",
-        category: 'info',
+        category: "Info",
         usage: "m/whois <mention a member/member id>",
-        aliases: ['ui', 'userinfo']
+        aliases: ['ui', 'userinfo'],
     },
-    run: async (bot, message, args) => {
+    run: async (client, message, args) => {
+
         var permissions = [];
         var acknowledgements = 'None';
         let whoisPermErr = new Discord.MessageEmbed()
@@ -73,23 +75,62 @@ module.exports = {
         if(member.user.id == message.guild.ownerID){
             acknowledgements = 'Server Owner';
         }
+        
+
+try {
     
+
+     const flags = {
+            DISCORD_EMPLOYEE: 'Discord Employee <:DiscordStaff:721437079300604035>  ',
+            DISCORD_PARTNER: 'Discord Partner <a:Discord_Partner:840623482457948201>  ',
+            BUGHUNTER_LEVEL_1: 'Bug Hunter (Level 1) <:bug_hunter_badge:840623658211999774> ',
+            BUGHUNTER_LEVEL_2: 'Bug Hunter (Level 2) <:Bug_Hunter_Gold:840623542713712641>',
+            HYPESQUAD_EVENTS: 'HypeSquad Events<a:Hypesquad:837258853627461632> ',
+            HOUSE_BRAVERY: 'House of Bravery <:bravery:840625416531476500> ',
+            HOUSE_BRILLIANCE: 'House of Brilliance <:brilliance:840626463006523402> ',
+            HOUSE_BALANCE: 'House of Balance <:balance:840626515544506408>',
+            EARLY_SUPPORTER: 'Early Supporter <:EarlySupporterBadge:840624148015218689> ',
+            TEAM_USER: 'Team User <:DiscordStaff:837752668918251600> ',
+            SYSTEM: 'System',
+            VERIFIED_BOT: 'Verified Bot <:verifiedBot:840624681303277599> ',
+            VERIFIED_DEVELOPER: 'Verified Bot Developer <:VerifiedBotDeveloper:840624514802647053> ',
+       NITRO: 'Nitro <a:nitroboost:853164787839795220>',
+       SERVER_BOOST: 'Server Boost <a:elm_Boost:1092339793075114014>'
+      };
+    
+      const userFlags = member.user.flags.toArray();
+       let nickname = member.nickname !== undefined && member.nickname !== null ? member.nickname: "NONE";
+
         const embed = new Discord.MessageEmbed()
             .setDescription(`<@${member.user.id}>`)
-            .setAuthor(`${member.user.tag}`, member.user.displayAvatarURL())
-            .setColor('RANDOM')
-            .setFooter(`ID: ${message.author.id}`)
-            .setThumbnail(member.user.displayAvatarURL())
-            .setTimestamp()
-            .addField("__Status__",`${status[member.user.presence.status]}`, true)
-            .addField('__Joined at:__ ',`${moment(member.joinedAt).format("dddd, MMMM Do YYYY, HH:mm:ss")}`, true)
-            .addField('__Created On__', member.user.createdAt.toLocaleString(), true)
-            .addField("__Playing__", member.presence.activities[0] ? member.presence.activities[0].state : `User isn't have a custom status!`, true)
-            .addField(`\n__Roles [${member.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `\`${roles.name}\``).length}]__`,`${member.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `<@&${roles.id }>`).join(" **|** ") || "No Roles"}`, true)
-            .addField("\n__Acknowledgements:__ ", `${acknowledgements}`, true)
-            .addField("\n__Permissions:__ ", `${permissions.join(` | `)}`);
             
-        message.channel.send({embed});
+            .setAuthor(`${member.user.tag}`, member.user.displayAvatarURL())
+            .setColor(member.roles.highest.hexColor)
+            .setFooter(`ID: ${message.author.id}`)
+            .setThumbnail(member.user.displayAvatarURL({dynamic : true , size: 4096}))
+            .setTimestamp()
+            .addField("<a:shinydot:837258278085066803>__Status__",`${status[member.user.presence.status]}`, true)
+            .addField('<a:shinydot:837258278085066803>__Joined at:__ ',`${moment(member.joinedAt).format("dddd, MMMM Do YYYY, HH:mm:ss")}`, true)
+            .addField('<a:shinydot:837258278085066803>__Created On__', member.user.createdAt.toLocaleString(), true)
+            .addField("<a:shinydot:837258278085066803>__Badges__: ",`${userFlags.length ? userFlags.map(flag => flags[flag]).join(',') : 'None'}`,true)
+            .addField("<a:shinydot:837258278085066803>__Playing__", member.presence.activities[0] ? member.presence.activities[0].state : `User Doesn't have a custom status!`, true)
+           .addField("<a:shinydot:837258278085066803>__Nickname__", `${nickname}`, true)
+            .addField(`\n<a:shinydot:837258278085066803>__Roles [${member.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `\`${roles.name}\``).length}]__`,`${member.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `<@&${roles.id }>`).join(" **|** ") || "No Roles"}`, true)
+            .addField("\n<a:shinydot:837258278085066803>__Acknowledgements:__ ", `${acknowledgements}`, true)
+            .addField("\n<a:shinydot:837258278085066803>__Permissions:__ ", `${permissions.join(` | `)}`);
+            
+        message.channel.send(`<a:redbadge:837717474107326477>UserInfo Of \`\`${member}\`\`<a:redbadge:837717474107326477>`,{embed})
+
+    } catch (e) {
+        console.log(e)
+        message.channel.send(new MessageEmbed()
+        .setColor(`RED`)
+        .setFooter(`ONE ERROR OCCURED AT`)
+        .setTimestamp()
+        .setTitle(`❌ ERROR | An error occurred`)
+        .setDescription(`\`\`\`${e.stack}\`\`\``)
+      );
+    }
+    } 
+    }
     
-    }
-    }

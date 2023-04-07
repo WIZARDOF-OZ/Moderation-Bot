@@ -32,7 +32,7 @@ try{
     
 
 
-    let Categories = ["admin", "fun", "images", "info","music", "mod","owner", "utility"],
+    let Categories = ["admin", "fun", "images", "info","mod","owner", "utility"],
     AllCommands = [];
 
 const Emotes = {
@@ -40,7 +40,7 @@ const Emotes = {
     fun: "🙂 Fun",
     images: "🔍 Images",
     info: "📚 Info",
-    music: "🎧 Music",
+
     mod: "🔧 Mod",
     owner:"💠 Bot_Dev",
     utility: "🤖 Utility"

@@ -3,7 +3,7 @@
 
 
 require("dotenv").config();
-console.log("Bot coded by Felix_Playz#1000\nLoaded Moderation Bot v2.0");
+console.log("Bot coded by WizardOFOZ\nLoaded Moderation Bot v2.0");
 //Defining dependencies
 const { Client, Collection } = require('discord.js');
 const { PREFIX } = require('./config.js');
@@ -445,6 +445,65 @@ let roles = bot.setups.get(member.guild.id, "welcome.roles");
   }
   });
 
+const logs = require('discord-logs');
+
+const servers = require("./JSON/Booster_Logs_Config.json");
+
+    logs(client);
+
+    bot.on('guildMemberBoost', async(member , message) => {
+        
+            const embed = new MessageEmbed()
+                .setAuthor(member.user.tag, member.user.displayAvatarURL({ dynamic: true }))
+                .addField(`${member.user.username} just __boosted__ the server!`, `>  Thank you, ${member} for boosting **${member.guild.name}**.\n>  You have unlocked the booster __perks__!`)
+                .setTimestamp()
+                .setFooter(member.guild.name)
+                .setColor('#EF2A4D')
+    
+            guild.Channels.forEach(c => {
+                const channel = client.channels.cache.get(c);
+                if (channel) {
+                    channel.send(embed)
+                }
+            });
+            
+
+        const guild = servers[member.guild.id]
+        if (!guild) return;
+       
+      //  const perksChannel = `<#${guild.PerksChannel}>`;
+    });
+
+    bot.on("guildMemberUnboost", (member) => {
+        const guild = servers[member.guild.id]
+        if (!guild) return;
+
+        const embed = new MessageEmbed()
+            .setAuthor(member.user.tag, member.user.displayAvatarURL({ dynamic: true }))
+            .addField(`${member.user.username} __unboosted__ <a:elm_SadCatGuitar:1092338703558529124>the server!!?`, `> ${member}, Thank you for boosting **${member.guild.name}** before!`)
+            .setColor('BLUE')
+            .setTimestamp()
+            .setFooter(member.guild.name)
+
+        guild.Channels.forEach(c => {
+            const channel = client.channels.cache.get(c);
+            if (channel) {
+                channel.send(embed)
+            }
+        });
+    });
+
+ bot.on("guildMemberAdd", async (member) => {
+   const {guild } = member;
+     const channel = await guild.channels.cache.get('1092166546505339040');
+
+
+       channel.send(`> Hey ,${member}, welcome to our server`)
+
+      
+
+ });
+
 bot.on('guildMemberAdd', async member => {
     if(!member.guild) return;
 	let age = await wb.get(`age.${member.guild.id}`);
@@ -495,5 +554,5 @@ function decodeMs(num) {
 
 bot.login(process.env.TOKEN);
 
-//BOT CODED BY: Felix_PlaYz#1000
+//BOT CODED BY: WizardOFOZ
 //DO NOT SHARE WITHOUT CREDITS!

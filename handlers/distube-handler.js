@@ -7,15 +7,15 @@ const { format } = require("../function.js")
 const client = new Discord.Client();
 module.exports = (client) => {
 
- client.distube = new Distube(client,{
+// client.distube = new Distube(client,{
    
- })
+// })
 
   // Queue status template
   const status = (queue) => `Volume: \`${queue.volume}%\` | Filter: \`${queue.filter || "Off"}\` | Loop: \`${queue.repeatMode ? queue.repeatMode == 2 ? "All Queue" : "This Song" : "Off"}\` | Autoplay: \`${queue.autoplay ? "On" : "Off"}\``;
 
   // DisTube event listeners, more in the documentation page
-  client.distube
+/*  client.distube
       .on("playSong", (message, queue, song) => message.channel.send(new MessageEmbed()
         .setTitle("Playing :notes: " + song.name)
         .setURL(song.url)
@@ -86,6 +86,6 @@ module.exports = (client) => {
           queue.volume = 100;
           queue.filter = "clear";
       }
-    )
+    )*/
 
 }
